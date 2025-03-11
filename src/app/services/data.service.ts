@@ -23,4 +23,23 @@ export class DataService {
         )
       );
   }
+
+  updateProductList(updatedProduct: ProductModel): void {
+    if (this.isNewProduct(updatedProduct)) {
+      this.products.update(
+        () => ([...this.products(), updatedProduct])
+      );
+      return;
+    }
+
+    this.products.update(
+      () => this.products().map(
+        product => product.id !== updatedProduct.id ? product : updatedProduct
+      )
+    );
+  }
+
+  private isNewProduct(product: ProductModel): boolean {
+    return !this.products().some(x => x.id === product.id);
+  }
 }

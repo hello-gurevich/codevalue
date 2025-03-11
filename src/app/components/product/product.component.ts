@@ -1,9 +1,10 @@
-import {Component, inject, Input, OnInit} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {DataService} from '../../services';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ProductModel} from '../../models';
 import moment from 'moment';
 import {NgClass} from '@angular/common';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -15,17 +16,30 @@ import {NgClass} from '@angular/common';
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent {
   @Input() set id(productId: number) {
     this.setProductDetails(productId);
     this.initProductForm();
   }
+  productDetails!: ProductModel;
+  productForm!: FormGroup;
 
   private dataService = inject(DataService);
-  productForm!: FormGroup;
-  productDetails!: ProductModel;
+  private router = inject(Router);
 
-  ngOnInit() {}
+  async onSaveButtonClick(): Promise<void> {
+    this.updateProductList();
+    await this.navigateToProductPage();
+  }
+
+  private async navigateToProductPage(): Promise<void> {
+    await this.router.navigate([this.productForm.value.id]);
+  }
+
+  private updateProductList(): void {
+    const updatedProduct = ProductModel.createFromFlatObject(this.productForm.value);
+    this.dataService.updateProductList(updatedProduct);
+  }
 
   private initProductForm(): void {
     this.productForm = new FormGroup({
