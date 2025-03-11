@@ -8,7 +8,10 @@
 
   <div class="d-flex justify-content-between">
     <div class="col-8">
-      <app-filter></app-filter>
+      <app-filter
+      [filterString]="filterString()"
+      (filterStringChanged)="onFilterStringChanged($event)"
+      ></app-filter>
     </div>
 
     <div class="col-4">

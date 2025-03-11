@@ -27,19 +27,24 @@ export class IndexComponent implements OnInit {
   SortByEnum = SortBy;
 
   sortBy = signal<SortBy>(this.SortByEnum.ByName);
+  filterString = signal<string>('');
   products = signal<ProductModel[]>([]);
   productsView = computed<ProductModel[]>(
-    () => _.sortBy(this.products(), [this.sortBy()])
+    () => this.sortProducts(this.filterProducts(this.products(), this.filterString()))
   );
 
   constructor() {
     effect(() => {
-      this.storageService.setData(this.products());
+      this.storageService.setData(this.productsView());
     });
   }
 
   ngOnInit() {
     this.initializeProducts();
+  }
+
+  onFilterStringChanged(newValue: string): void {
+    this.filterString.update(() => newValue);
   }
 
   onDeleteButtonClick(id: number): void {
@@ -48,6 +53,22 @@ export class IndexComponent implements OnInit {
 
   onSortChanged(sortBy: SortBy): void {
     this.sortBy.update(() => sortBy);
+  }
+
+  private filterProducts(products: ProductModel[], sortString: string): ProductModel[] {
+    if(sortString.length === 0) {
+      return products;
+    }
+
+    sortString = sortString.toLowerCase();
+
+    return products.filter(
+      x => x.name.toLowerCase().includes(sortString) || x.description?.toLowerCase().includes(sortString)
+    );
+  }
+
+  private sortProducts(originProducts: ProductModel[]): ProductModel[] {
+    return _.sortBy(originProducts, [this.sortBy()]);
   }
 
   private deleteProduct(productId: number): void {
