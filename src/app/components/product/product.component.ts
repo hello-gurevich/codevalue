@@ -44,9 +44,9 @@ export class ProductComponent {
   private initProductForm(): void {
     this.productForm = new FormGroup({
       id: new FormControl(this.productDetails?.id || this.getNextId(), Validators.required),
-      name: new FormControl(this.productDetails?.name, Validators.required),
-      description: new FormControl(this.productDetails?.description),
-      price: new FormControl(this.productDetails?.price, Validators.required),
+      name: new FormControl(this.productDetails?.name, [Validators.required, Validators.max(30)]),
+      description: new FormControl(this.productDetails?.description, Validators.max(200)),
+      price: new FormControl(this.productDetails?.price, [Validators.required, Validators.min(0)]),
       createdAt: new FormControl(this.productDetails?.createdAt || this.getCurrentDate(), Validators.required),
     });
   }
