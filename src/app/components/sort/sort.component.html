@@ -1,0 +1,13 @@
+<select
+  (change)="onSortChanged($event)"
+  class="form-select" aria-label="D"
+>
+  <option
+    [selected]="sortBy() === SortByEnum.ByName"
+    [value]="SortByEnum.ByName"
+  >Sort by Name</option>
+  <option
+    [selected]="sortBy() === SortByEnum.RecentlyAdded"
+    [value]="SortByEnum.RecentlyAdded"
+  >Recently added</option>
+</select>

@@ -1,43 +1,28 @@
 <div class="container mt-3">
+  <button
+    type="button"
+    class="btn btn-success"
+  >Add new product</button>
 
-  <table class="table table-striped table-hover">
-    <thead>
-    <tr>
-      <th scope="col">Image</th>
-      <th scope="col">Name</th>
-      <th scope="col">Description</th>
-      <th scope="col">Price</th>
-      <th scope="col">Created at</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-      @for(product of products(); track product.id) {
-        <tr>
-          <td>
-            <img [src]="'https://dummyimage.com/50'" alt="">
-          </td>
-          <td>
-            {{ product.name }}
-          </td>
-          <td>
-            {{ product.description || '-' }}
-          </td>
-          <td>
-            {{ product.price }}
-          </td>
-          <td>
-            {{ product.createdAt }}
-          </td>
-          <td>
-            <button
-              class="btn btn-close"
-              (click)="onDeleteButtonClick(product.id)"
-            ></button>
-          </td>
-        </tr>
-      }
-    </tbody>
+  <hr>
 
-  </table>
+  <div class="d-flex justify-content-between">
+    <div class="col-8">
+      <app-filter></app-filter>
+    </div>
+
+    <div class="col-4">
+      <app-sort
+        [sortBy]="sortBy()"
+        (sortChanged)="onSortChanged($event)"
+      ></app-sort>
+    </div>
+  </div>
+  <hr>
+
+  <app-products
+    [products]="productsView()"
+    (deleteProduct)="onDeleteButtonClick($event)"
+  ></app-products>
+
 </div>
