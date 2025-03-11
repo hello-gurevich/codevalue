@@ -7,6 +7,7 @@
     <th scope="col">Price</th>
     <th scope="col">Created at</th>
     <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -26,6 +27,14 @@
         </td>
         <td>
           {{ product.createdAt }}
+        </td>
+        <td>
+          <a
+            class="btn btn-secondary"
+            [routerLink]="product.id.toString()"
+          >
+            Details
+          </a>
         </td>
         <td>
           <button

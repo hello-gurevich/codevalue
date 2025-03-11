@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {HttpService} from './http.service';
 import {map, Observable} from 'rxjs';
 import {ProductModel} from '../models';
@@ -10,6 +10,7 @@ import {ProductModel} from '../models';
 )
 export class DataService {
   private httpService = inject(HttpService);
+  products = signal<ProductModel[]>([]);
 
   getProductList(): Observable<ProductModel[]> {
     return this.httpService.getProductList()

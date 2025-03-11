@@ -8,13 +8,16 @@ import {FilterComponent} from '../filter/filter.component';
 import {SortBy} from '../../enums';
 import * as _ from 'lodash';
 import {SortComponent} from '../sort/sort.component';
+import {RouterLink, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-index',
   imports: [
     ProductsComponent,
     FilterComponent,
-    SortComponent
+    SortComponent,
+    RouterOutlet,
+    RouterLink
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
