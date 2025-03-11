@@ -1,7 +1,8 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, effect, inject, OnInit, signal} from '@angular/core';
 import {DataService} from '../../services';
 import {ProductModel} from '../../models';
 import {Subject, takeUntil} from 'rxjs';
+import {StorageService} from '../../services/storage.service';
 
 @Component({
   selector: 'app-index',
@@ -10,9 +11,18 @@ import {Subject, takeUntil} from 'rxjs';
   styleUrl: './index.component.scss'
 })
 export class IndexComponent implements OnInit {
-  destroy$ = new Subject<void>();
+  private destroy$ = new Subject<void>();
+  private storageKey = 'products';
   private dataService = inject(DataService);
+  private storageService = new StorageService(this.storageKey);
+
   products = signal<ProductModel[]>([]);
+
+  constructor() {
+    effect(() => {
+      this.storageService.setData(this.products());
+    });
+  }
 
   ngOnInit() {
     this.initializeProducts();
