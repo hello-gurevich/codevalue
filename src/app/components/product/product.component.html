@@ -1,1 +1,44 @@
-<p>product works!</p>
+<h3>
+  @if(productDetails) {
+    {{ productDetails.name }}
+  } @else {
+    Add new product
+  }
+</h3>
+
+<form [formGroup]="productForm">
+  <div class="form-group mt-3">
+    <label>Name <sup>*</sup></label>
+    <input [formControlName]="'name'" class="form-control" placeholder="Name">
+    @if(productForm.get('name')?.invalid && productForm.get('name')?.dirty) {
+      <small class="invalid-feedback d-block">Data is no valid</small>
+    }
+  </div>
+  <div class="form-group mt-3">
+    <label>Description</label>
+    <input [formControlName]="'description'" class="form-control" placeholder="Description">
+    @if(productForm.get('description')?.invalid && productForm.get('description')?.dirty) {
+      <small class="invalid-feedback d-block">Data is no valid</small>
+    }
+  </div>
+  <div class="form-group mt-3">
+    <label>Price <sup>*</sup></label>
+    <input [formControlName]="'price'" class="form-control" placeholder="Price">
+    @if(productForm.get('price')?.invalid && productForm.get('price')?.dirty) {
+      <small class="invalid-feedback d-block">Data is no valid</small>
+    }
+  </div>
+  <div class="form-group mt-3">
+    <label>Creation date <sup>*</sup></label>
+    <input [formControlName]="'createdAt'" class="form-control" placeholder="Creation date">
+    @if(productForm.get('createdAt')?.invalid && productForm.get('createdAt')?.dirty) {
+      <small class="invalid-feedback d-block">Data is no valid</small>
+    }
+  </div>
+  <div class="form-group mt-3">
+    * required fields
+  </div>
+  <div class="form-group mt-3">
+    <button [ngClass]="{ disabled: productForm.invalid }" class="btn btn-success">Save</button>
+  </div>
+</form>

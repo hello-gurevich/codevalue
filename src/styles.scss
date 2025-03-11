@@ -1,1 +1,6 @@
 @use 'bootstrap/dist/css/bootstrap.min.css';
+
+.disabled {
+  pointer-events: none;
+  opacity: .6;
+}

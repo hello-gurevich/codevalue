@@ -86,7 +86,7 @@ export class IndexComponent implements OnInit {
         takeUntil(this.destroy$),
       )
       .subscribe(
-        products => this.products.update(() => products)
+        products => this.products = products
       );
   }
 

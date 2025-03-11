@@ -1,6 +1,6 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpService} from './http.service';
-import {map, Observable} from 'rxjs';
+import {map, Observable, tap} from 'rxjs';
 import {ProductModel} from '../models';
 
 @Injectable(
@@ -12,11 +12,14 @@ export class DataService {
   private httpService = inject(HttpService);
   products = signal<ProductModel[]>([]);
 
-  getProductList(): Observable<ProductModel[]> {
+  getProductList(): Observable<WritableSignal<ProductModel[]>> {
     return this.httpService.getProductList()
       .pipe(
+        tap(
+          ({products}) => this.products.update(() => products)
+        ),
         map(
-          ({products}) => products
+          () => this.products
         )
       );
   }
